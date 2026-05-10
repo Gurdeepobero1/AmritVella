@@ -1,0 +1,417 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum SimranMode {
+  TIMER
+  MALA
+  CUSTOM
+  SILENT
+}
+
+enum CareerCategory {
+  CAD_CAM
+  GD_T
+  DEFENCE_RESEARCH
+  OUTREACH
+  PORTFOLIO
+  EXAM_PREP
+  BUSINESS_DEV
+  READING
+}
+
+enum CareerStatus {
+  PLANNED
+  IN_PROGRESS
+  DONE
+  SKIPPED
+  BLOCKED
+}
+
+enum EmotionalTriggerType {
+  ATTACHMENT
+  ANGER
+  FEAR
+  LONELINESS
+  LUST
+  FAMILY
+  WORK
+  CAREER
+  OTHER
+}
+
+enum FiveThief {
+  KAAM
+  KRODH
+  LOBH
+  MOH
+  AHANKAR
+}
+
+enum OutreachStatus {
+  PLANNED
+  SENT
+  FOLLOW_UP
+  WON
+  LOST
+  NO_RESPONSE
+}
+
+model User {
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String               @unique
+  passwordHash       String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  appSettings        AppSetting[]
+  careerTasks        CareerTask[]
+  dailyLogs          DailyLog[]
+  emergencyUsages    EmergencyModeUsage[]
+  emotionalTriggers  EmotionalTrigger[]
+  fitnessLogs        FitnessLog[]
+  fiveThievesRatings FiveThievesRating[]
+  journalEntries     JournalEntry[]
+  monthlyReviews     MonthlyReview[]
+  outreachLogs       OutreachLog[]
+  pathCompletions    PathCompletion[]
+  revenueLogs        RevenueLog[]
+  sevaActions        SevaAction[]
+  simranSessions     SimranSession[]
+  skillPracticeLogs  SkillPracticeLog[]
+  weeklyReviews      WeeklyReview[]
+}
+
+model DailyLog {
+  id                    String   @id @default(cuid())
+  userId                String
+  date                  DateTime @db.Date
+  sikhDisciplineScore   Int      @default(0)
+  careerExecutionScore  Int      @default(0)
+  emotionalControlScore Int      @default(0)
+  fitnessScore          Int      @default(0)
+  sevaCharacterScore    Int      @default(0)
+  totalScore            Int      @default(0)
+  noBegging             Boolean  @default(false)
+  noEmotionalThreat     Boolean  @default(false)
+  noAngryTexting        Boolean  @default(false)
+  noCheckingObsessing   Boolean  @default(false)
+  noStalking            Boolean  @default(false)
+  noHookupLustAction    Boolean  @default(false)
+  noLying               Boolean  @default(false)
+  noManipulation        Boolean  @default(false)
+  waitedBeforeReacting  Boolean  @default(false)
+  acceptedRealityCalmly Boolean  @default(false)
+  relapseCount          Int      @default(0)
+  missedDay             Boolean  @default(false)
+  currentStreakSnapshot Int      @default(0)
+  notes                 String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model PathCompletion {
+  id              String   @id @default(cuid())
+  userId          String
+  date            DateTime @db.Date
+  pathName        String
+  completedAt     DateTime @default(now())
+  durationMinutes Int      @default(0)
+  notes           String?
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, pathName])
+}
+
+model SimranSession {
+  id              String     @id @default(cuid())
+  userId          String
+  date            DateTime   @db.Date
+  startTime       DateTime
+  endTime         DateTime
+  durationMinutes Int
+  count           Int        @default(0)
+  mode            SimranMode
+  emotionBefore   String?
+  emotionAfter    String?
+  reflection      String?
+  createdAt       DateTime   @default(now())
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model CareerTask {
+  id              String         @id @default(cuid())
+  userId          String
+  title           String
+  category        CareerCategory
+  plannedDuration Decimal?       @db.Decimal(6, 2)
+  actualDuration  Decimal?       @db.Decimal(6, 2)
+  status          CareerStatus   @default(PLANNED)
+  date            DateTime       @db.Date
+  notes           String?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, category])
+}
+
+model FitnessLog {
+  id               String   @id @default(cuid())
+  userId           String
+  date             DateTime @db.Date
+  wakeUpTime       String?
+  sleepTime        String?
+  workoutType      String?
+  durationMinutes  Int      @default(0)
+  steps            Int      @default(0)
+  waterLiters      Decimal? @db.Decimal(5, 2)
+  cleanFood        Boolean  @default(false)
+  noJunk           Boolean  @default(false)
+  noAlcoholSmoking Boolean  @default(false)
+  weightKg         Decimal? @db.Decimal(6, 2)
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model EmotionalTrigger {
+  id                String               @id @default(cuid())
+  userId            String
+  triggerType       EmotionalTriggerType
+  intensity         Int
+  response          String?
+  didReact          Boolean              @default(false)
+  usedEmergencyMode Boolean              @default(false)
+  lessonLearned     String?
+  createdAt         DateTime             @default(now())
+  user              User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emergencyUsages   EmergencyModeUsage[]
+
+  @@index([userId, createdAt])
+  @@index([userId, triggerType])
+}
+
+model EmergencyModeUsage {
+  id                   String            @id @default(cuid())
+  userId               String
+  triggerId            String?
+  startedAt            DateTime
+  completedAt          DateTime?
+  wroteUnsentMessage   Boolean           @default(false)
+  contactedPersonAfter Boolean           @default(false)
+  finalDecision        String?
+  notes                String?
+  createdAt            DateTime          @default(now())
+  trigger              EmotionalTrigger? @relation(fields: [triggerId], references: [id], onDelete: SetNull)
+  user                 User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, startedAt])
+}
+
+model SevaAction {
+  id              String   @id @default(cuid())
+  userId          String
+  type            String
+  date            DateTime @db.Date
+  durationMinutes Int?
+  valueAmount     Decimal? @db.Decimal(10, 2)
+  privateNotes    String?
+  anonymous       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model FiveThievesRating {
+  id                String    @id @default(cuid())
+  userId            String
+  date              DateTime  @db.Date
+  thief             FiveThief
+  rating            Int
+  trigger           String?
+  correctiveAction  String?
+  sikhPrincipleUsed String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date, thief])
+  @@index([userId, date])
+}
+
+model WeeklyReview {
+  id                String   @id @default(cuid())
+  userId            String
+  weekStart         DateTime @db.Date
+  weekEnd           DateTime @db.Date
+  livedTruthfully   String?
+  didNaamSimran     String?
+  earnedHonestly    String?
+  served            String?
+  reducedAttachment String?
+  builtCareer       String?
+  improveNextWeek   String?
+  scoreAverage      Decimal? @db.Decimal(5, 2)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, weekStart])
+  @@index([userId, weekStart])
+}
+
+model MonthlyReview {
+  id                    String   @id @default(cuid())
+  userId                String
+  month                 DateTime @db.Date
+  totalDeepWorkHours    Decimal  @default(0) @db.Decimal(8, 2)
+  totalSimranMinutes    Int      @default(0)
+  totalNitnemDays       Int      @default(0)
+  totalSevaActions      Int      @default(0)
+  totalOutreach         Int      @default(0)
+  totalRevenue          Decimal  @default(0) @db.Decimal(12, 2)
+  emotionalRelapseCount Int      @default(0)
+  strongestHabit        String?
+  weakestHabit          String?
+  nextMonthCommitment   String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, month])
+  @@index([userId, month])
+}
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime @db.Date
+  prompt    String?
+  content   String
+  mood      String?
+  tags      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model RevenueLog {
+  id               String   @id @default(cuid())
+  userId           String
+  date             DateTime @db.Date
+  clientSource     String
+  amount           Decimal  @db.Decimal(12, 2)
+  category         String
+  paid             Boolean  @default(false)
+  invoiceReference String?
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model OutreachLog {
+  id             String         @id @default(cuid())
+  userId         String
+  date           DateTime       @db.Date
+  companyPerson  String
+  sector         String?
+  contactMethod  String
+  messageSummary String?
+  followUpDate   DateTime?      @db.Date
+  status         OutreachStatus @default(PLANNED)
+  result         String?
+  notes          String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, status])
+}
+
+model SkillPracticeLog {
+  id             String   @id @default(cuid())
+  userId         String
+  date           DateTime @db.Date
+  softwareUsed   String
+  skillCategory  String
+  projectName    String?
+  hours          Decimal  @db.Decimal(6, 2)
+  outputLinkNote String?
+  difficulty     Int?
+  whatImproved   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+  @@index([userId, skillCategory])
+}
+
+model GurbaniContent {
+  id                String         @id @default(cuid())
+  title             String
+  category          String
+  gurmukhiText      String?
+  transliteration   String?
+  englishMeaning    String?
+  verifiedSourceUrl String?
+  notes             String?
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  playlistLinks     PlaylistLink[]
+
+  @@unique([title, category])
+  @@index([category])
+}
+
+model PlaylistLink {
+  id               String          @id @default(cuid())
+  gurbaniContentId String?
+  title            String
+  url              String
+  category         String?
+  notes            String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  gurbaniContent   GurbaniContent? @relation(fields: [gurbaniContentId], references: [id], onDelete: SetNull)
+
+  @@index([category])
+}
+
+model AppSetting {
+  id        String   @id @default(cuid())
+  userId    String
+  key       String
+  value     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, key])
+}
