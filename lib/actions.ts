@@ -29,9 +29,19 @@ export async function registerUser(formData: FormData) {
   const name = optionalString(formData.get("name"));
   const email = optionalString(formData.get("email"))?.toLowerCase();
   const password = optionalString(formData.get("password"));
+  const registrationCode = optionalString(formData.get("registrationCode"));
 
   if (!email || !password || password.length < 8) {
     throw new Error("Email and an 8+ character password are required.");
+  }
+
+  const existingUsers = await prisma.user.count();
+  const requiredCode = process.env.REGISTRATION_CODE;
+  if (existingUsers > 0 && (!requiredCode || registrationCode !== requiredCode)) {
+    throw new Error("Registration is locked. Use the private setup code.");
+  }
+  if (requiredCode && registrationCode !== requiredCode) {
+    throw new Error("Invalid registration code.");
   }
 
   const passwordHash = await bcrypt.hash(password, 12);

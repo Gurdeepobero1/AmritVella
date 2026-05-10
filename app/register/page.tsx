@@ -3,6 +3,8 @@ import { registerUser } from "@/lib/actions";
 import { Card, Field, inputClass, SubmitButton } from "@/components/ui/primitives";
 
 export default function RegisterPage() {
+  const requiresCode = Boolean(process.env.REGISTRATION_CODE);
+
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-10">
       <Card className="w-full max-w-md overflow-hidden">
@@ -21,6 +23,11 @@ export default function RegisterPage() {
           <Field label="Password" hint="Use at least 8 characters.">
             <input className={inputClass} name="password" type="password" autoComplete="new-password" required minLength={8} />
           </Field>
+          {requiresCode ? (
+            <Field label="Private setup code" hint="Required on deployed instances.">
+              <input className={inputClass} name="registrationCode" type="password" required />
+            </Field>
+          ) : null}
           <SubmitButton>Create account</SubmitButton>
           <Link className="focus-ring block rounded-md text-sm font-medium text-navy-950 underline" href="/login">
             Back to sign in
