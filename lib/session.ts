@@ -1,11 +1,26 @@
-import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/db";
 
 export async function requireUser() {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    redirect("/login");
-  }
-  return session.user;
+  const owner = await prisma.user.upsert({
+    where: { email: "owner@amritvella.local" },
+    update: {},
+    create: {
+      name: "AmritVella",
+      email: "owner@amritvella.local",
+      passwordHash: "auth-disabled"
+    },
+    select: { id: true, name: true, email: true }
+  });
+
+  await prisma.appSetting.upsert({
+    where: { userId_key: { userId: owner.id, key: "routineMode" } },
+    update: {},
+    create: {
+      userId: owner.id,
+      key: "routineMode",
+      value: "BEGINNER"
+    },
+  });
+
+  return owner;
 }

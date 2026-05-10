@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
 import type { Prisma } from "@prisma/client";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { requireUser } from "@/lib/session";
+
+export const dynamic = "force-dynamic";
 
 type Row = Record<string, unknown>;
 
@@ -27,14 +28,10 @@ async function createManyIfAny<T>(items: T[], create: (items: T[]) => Promise<un
 }
 
 export async function POST(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+  const user = await requireUser();
   const body = await request.json();
   const data = body.data ?? body;
-  const userId = session.user.id;
+  const userId = user.id;
 
   await prisma.$transaction(async (tx) => {
     await createManyIfAny(userRows(data.appSettings, userId) as Prisma.AppSettingCreateManyInput[], (items) => tx.appSetting.createMany({ data: items, skipDuplicates: true }));

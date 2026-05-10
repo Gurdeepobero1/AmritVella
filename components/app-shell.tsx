@@ -11,7 +11,6 @@ import {
   Shield,
   Sparkles
 } from "lucide-react";
-import { SignOutButton } from "@/components/sign-out-button";
 
 const nav = [
   { href: "/dashboard", label: "Dashboard", icon: Home },
@@ -56,11 +55,8 @@ export function AppShell({
           })}
         </nav>
         <div className="absolute bottom-5 left-4 right-4 rounded-lg border border-white/10 bg-white/[0.04] p-4">
-          <div className="text-sm font-medium text-white">{userName ?? "Signed in"}</div>
-          <div className="mt-1 text-xs text-steel-300">Private history, user-scoped by database.</div>
-          <div className="mt-4">
-            <SignOutButton />
-          </div>
+          <div className="text-sm font-medium text-white">{userName ?? "Single-user mode"}</div>
+          <div className="mt-1 text-xs text-steel-300">Direct access enabled. History still stays under one database owner.</div>
         </div>
       </aside>
 
@@ -70,7 +66,7 @@ export function AppShell({
             <Link href="/dashboard" className="focus-ring rounded-md text-base font-semibold tracking-[0.08em] text-white">
               AMRITVELLA
             </Link>
-            <SignOutButton />
+            <span className="rounded-md border border-white/10 px-3 py-2 text-xs font-medium text-steel-100">Direct access</span>
           </div>
           <nav className="mt-3 flex gap-2 overflow-x-auto pb-1">
             {nav.map((item) => (

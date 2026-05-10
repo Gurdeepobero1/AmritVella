@@ -1,21 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { parseDateInput } from "@/lib/date";
+import { requireUser } from "@/lib/session";
+
+export const dynamic = "force-dynamic";
 
 export async function GET(request: NextRequest) {
-  const session = await getServerSession(authOptions);
-  if (!session?.user?.id) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
+  const user = await requireUser();
   const month = request.nextUrl.searchParams.get("month") ?? new Date().toISOString().slice(0, 7);
   const start = parseDateInput(`${month}-01`);
   const end = new Date(start);
   end.setUTCMonth(end.getUTCMonth() + 1);
 
-  const userId = session.user.id;
+  const userId = user.id;
   const [daily, simran, paths, tasks, skills, outreach, revenue, triggers, seva, fitness] = await Promise.all([
     prisma.dailyLog.findMany({ where: { userId, date: { gte: start, lt: end } }, orderBy: { date: "asc" } }),
     prisma.simranSession.findMany({ where: { userId, date: { gte: start, lt: end } } }),
