@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Sikh discipline, healing, career, and self-mastery tracker.",
     start_url: "/dashboard",
     display: "standalone",
-    background_color: "#07111f",
-    theme_color: "#07111f",
+    background_color: "#fffaf0",
+    theme_color: "#ff5a1f",
     icons: [
       {
         src: "/icon.svg",

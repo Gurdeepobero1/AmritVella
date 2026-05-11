@@ -43,9 +43,9 @@ export function SimranTracker({
   const seconds = (remaining % 60).toString().padStart(2, "0");
 
   return (
-    <div className="rounded-[16px] border border-hairline bg-paper p-4 text-navy-950 sm:p-5">
+    <div className="rounded-[12px] border border-hairline bg-paper p-4 text-navy-950 sm:p-5">
       <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[32px] bg-card p-5 text-center">
+        <div className="rounded-[16px] bg-card p-5 text-center">
           <div className="text-sm font-bold uppercase tracking-[0.16em] text-steel-500">Waheguru counter</div>
           <button
             type="button"
@@ -58,14 +58,14 @@ export function SimranTracker({
             <button
               type="button"
               onClick={() => setCount((value) => value + 108)}
-              className="focus-ring rounded-[16px] bg-white px-3 py-2 text-sm font-bold text-navy-950"
+              className="focus-ring rounded-[12px] bg-white px-3 py-2 text-sm font-bold text-navy-950"
             >
               +108
             </button>
             <button
               type="button"
               onClick={() => setCount(0)}
-              className="focus-ring inline-flex items-center gap-2 rounded-[16px] bg-white px-3 py-2 text-sm font-bold text-navy-950"
+              className="focus-ring inline-flex items-center gap-2 rounded-[12px] bg-white px-3 py-2 text-sm font-bold text-navy-950"
             >
               <RotateCcw className="h-4 w-4" />
               Reset
@@ -74,7 +74,7 @@ export function SimranTracker({
         </div>
 
         <div>
-          <div className="rounded-[32px] bg-navy-950 p-5 text-white">
+          <div className="rounded-[16px] bg-navy-950 p-5 text-white">
             <div className="text-sm font-bold uppercase tracking-[0.16em] text-white/65">Timer</div>
             <div className="mt-3 text-5xl font-bold tabular-nums tracking-[-0.05em] text-white">
               {minutes}:{seconds}
@@ -103,7 +103,7 @@ export function SimranTracker({
                   if (!running) setStartedAt(new Date().toISOString());
                   setRunning((value) => !value);
                 }}
-                className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[16px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white"
+                className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[8px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white"
               >
                 {running ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 {running ? "Pause" : "Start"}
@@ -113,7 +113,7 @@ export function SimranTracker({
                 onClick={() => {
                   if ("vibrate" in navigator) navigator.vibrate(40);
                 }}
-                className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[16px] bg-white/10 px-5 py-3 text-sm font-bold leading-none text-white"
+                className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[12px] bg-white/10 px-5 py-3 text-sm font-bold leading-none text-white"
               >
                 <Vibrate className="h-4 w-4" />
                 Tick
@@ -160,7 +160,7 @@ export function SimranTracker({
               <span className="text-sm font-semibold text-navy-950">Post-session reflection</span>
               <textarea className={darkInputClass} name="reflection" rows={3} />
             </label>
-            <button className="focus-ring rounded-[16px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white" type="submit">
+            <button className="focus-ring rounded-[8px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white" type="submit">
               Save simran session
             </button>
           </form>

@@ -27,7 +27,7 @@ export default async function SimranPage() {
         <div className="space-y-2 p-4 sm:p-5">
           {sessions.length ? (
             sessions.map((session) => (
-              <div key={session.id} className="flex items-center justify-between gap-3 rounded-[16px] bg-card px-3 py-2">
+              <div key={session.id} className="flex items-center justify-between gap-3 rounded-[12px] bg-card px-3 py-2">
                 <div className="min-w-0">
                   <div className="truncate text-sm font-medium text-navy-950">
                     {session.mode} · {session.durationMinutes} min · {session.count} count

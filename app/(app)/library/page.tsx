@@ -23,7 +23,7 @@ export default async function LibraryPage() {
           <div className="space-y-3 p-4 sm:p-5">
             {content.length ? (
               content.map((item) => (
-                <article key={item.id} className="rounded-[16px] bg-card p-3">
+                <article key={item.id} className="rounded-[12px] bg-card p-3">
                   <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-sm font-semibold text-navy-950">{item.title}</h2>
                     <span className="text-xs font-medium uppercase tracking-[0.16em] text-saffron-600">{item.category}</span>
@@ -108,7 +108,7 @@ export default async function LibraryPage() {
                 playlists.map((playlist) => (
                   <a
                     key={playlist.id}
-                    className="focus-ring block rounded-[16px] bg-card px-3 py-2 text-sm font-bold text-navy-950 underline"
+                    className="focus-ring block rounded-[12px] bg-card px-3 py-2 text-sm font-bold text-navy-950 underline"
                     href={playlist.url}
                     target="_blank"
                     rel="noreferrer"

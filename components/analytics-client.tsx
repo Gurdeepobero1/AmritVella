@@ -107,7 +107,7 @@ export function AnalyticsClient({
           <XAxis dataKey="date" stroke="#62625b" tick={{ fontSize: 11 }} />
           <YAxis stroke="#62625b" domain={[0, 100]} tick={{ fontSize: 11 }} />
           <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #dadad3", color: "#000000" }} />
-          <Line type="monotone" dataKey="score" stroke="#e60023" strokeWidth={3} dot={false} />
+          <Line type="monotone" dataKey="score" stroke="#ff5a1f" strokeWidth={3} dot={false} />
         </LineChart>
       </ChartCard>
 
@@ -118,7 +118,7 @@ export function AnalyticsClient({
             <XAxis dataKey="date" stroke="#62625b" tick={{ fontSize: 11 }} />
             <YAxis stroke="#62625b" tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #dadad3", color: "#000000" }} />
-            <Bar dataKey="simranMinutes" fill="#e60023" />
+            <Bar dataKey="simranMinutes" fill="#ff5a1f" />
             <Bar dataKey="careerHours" fill="#62625b" />
           </BarChart>
         </ChartCard>
@@ -129,7 +129,7 @@ export function AnalyticsClient({
             <XAxis dataKey="date" stroke="#62625b" tick={{ fontSize: 11 }} />
             <YAxis stroke="#62625b" tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #dadad3", color: "#000000" }} />
-            <Bar dataKey="outreach" fill="#e60023" />
+            <Bar dataKey="outreach" fill="#ff5a1f" />
             <Bar dataKey="triggers" fill="#9e0a0a" />
             <Bar dataKey="seva" fill="#103c25" />
           </BarChart>
@@ -141,7 +141,7 @@ export function AnalyticsClient({
             <XAxis dataKey="date" stroke="#62625b" tick={{ fontSize: 11 }} />
             <YAxis stroke="#62625b" tick={{ fontSize: 11 }} />
             <Tooltip contentStyle={{ background: "#ffffff", border: "1px solid #dadad3", color: "#000000" }} />
-            <Line type="monotone" dataKey="revenue" stroke="#e60023" strokeWidth={3} dot={false} />
+            <Line type="monotone" dataKey="revenue" stroke="#ff5a1f" strokeWidth={3} dot={false} />
           </LineChart>
         </ChartCard>
 
@@ -162,7 +162,7 @@ export function AnalyticsClient({
 
 function MiniStat({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="rounded-[16px] bg-card p-4 text-navy-950">
+    <div className="rounded-[12px] bg-card p-4 text-navy-950">
       <div className="text-xs font-bold uppercase tracking-[0.14em] text-steel-500">{label}</div>
       <div className="mt-2 text-2xl font-bold tracking-[-0.03em]">{value}</div>
     </div>
@@ -171,7 +171,7 @@ function MiniStat({ label, value }: { label: string; value: React.ReactNode }) {
 
 function ChartCard({ title, children }: { title: string; children: React.ReactElement }) {
   return (
-    <section className="rounded-[16px] border border-hairline bg-paper p-4 text-navy-950">
+    <section className="rounded-[12px] border border-hairline bg-paper p-4 text-navy-950">
       <h2 className="text-base font-bold">{title}</h2>
       <div className="mt-4 h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">

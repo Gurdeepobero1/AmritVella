@@ -81,7 +81,7 @@ export default async function DailyPage() {
                 <input type="hidden" name="date" value={todayInputDate()} readOnly />
                 <input type="hidden" name="pathName" value={nextPath.name} readOnly />
                 <input type="hidden" name="durationMinutes" value={nextPath.defaultDuration} readOnly />
-                <button className="focus-ring inline-flex min-h-11 rounded-full bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white">
+                <button className="focus-ring inline-flex min-h-11 rounded-[8px] bg-saffron-500 px-5 py-3 text-sm font-medium leading-none text-white">
                   Mark {nextPath.name} done
                 </button>
               </form>
@@ -130,8 +130,8 @@ export default async function DailyPage() {
             </form>
           </Card>
 
-          <details className="rounded-[16px] border border-hairline bg-paper">
-            <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Routine settings</summary>
+          <details className="rounded-[12px] border border-hairline bg-paper">
+            <summary className="cursor-pointer p-4 text-sm font-medium text-navy-950 sm:p-5">Routine settings</summary>
             <form action={saveRoutineMode} className="space-y-4 border-t border-hairline p-4 sm:p-5">
               <Field label="Active mode">
                 <select className={inputClass} name="mode" defaultValue={routineMode}>
@@ -147,8 +147,8 @@ export default async function DailyPage() {
           </details>
         </div>
 
-        <details className="rounded-[16px] border border-hairline bg-paper">
-          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">
+        <details className="rounded-[12px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-medium text-navy-950 sm:p-5">
             Score and emotional checklist
             <span className="ml-2 font-semibold text-steel-500">Suggested {dailyLog?.totalScore ?? suggestedTotal}/100</span>
           </summary>
@@ -178,12 +178,12 @@ export default async function DailyPage() {
             </div>
             <div className="grid gap-2 sm:grid-cols-2">
               {emotionalChecklist.map(([key, label]) => (
-                <label key={key} className="flex items-start gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+                <label key={key} className="flex items-start gap-2 rounded-[8px] border border-hairline bg-card px-3 py-2 text-sm text-navy-950">
                   <input className="mt-1 h-4 w-4 accent-saffron-500" name={key} type="checkbox" defaultChecked={Boolean(dailyLog?.[key])} />
                   <span>{label}</span>
                 </label>
               ))}
-              <label className="flex items-start gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+              <label className="flex items-start gap-2 rounded-[8px] border border-hairline bg-card px-3 py-2 text-sm text-navy-950">
                 <input className="mt-1 h-4 w-4 accent-saffron-500" name="missedDay" type="checkbox" defaultChecked={Boolean(dailyLog?.missedDay)} />
                 <span>Mark as missed day</span>
               </label>
@@ -194,7 +194,7 @@ export default async function DailyPage() {
             <Field label="Daily notes">
               <textarea className={inputClass} name="notes" rows={4} defaultValue={dailyLog?.notes ?? ""} />
             </Field>
-            <div className="rounded-[16px] bg-card px-4 py-3 text-sm font-semibold text-navy-950">
+            <div className="rounded-[8px] border border-hairline bg-card px-4 py-3 text-sm font-medium text-navy-950">
               Suggested score from today&apos;s stored activity: {dailyLog?.totalScore ?? suggestedTotal}/100
             </div>
             <SubmitButton>Save daily log</SubmitButton>
@@ -203,8 +203,8 @@ export default async function DailyPage() {
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-2">
-        <details className="rounded-[16px] border border-hairline bg-paper">
-          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Journal</summary>
+        <details className="rounded-[12px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-medium text-navy-950 sm:p-5">Journal</summary>
           <form action={createJournalEntry} className="space-y-4 border-t border-hairline p-4 sm:p-5">
             <Field label="Date">
               <input className={inputClass} name="date" type="date" defaultValue={todayInputDate()} />
@@ -233,15 +233,15 @@ export default async function DailyPage() {
           </form>
         </details>
 
-        <details className="rounded-[16px] border border-hairline bg-paper">
-          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Recent history</summary>
+        <details className="rounded-[12px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-medium text-navy-950 sm:p-5">Recent history</summary>
           <div className="space-y-5 border-t border-hairline p-4 sm:p-5">
             <div>
               <h3 className="text-sm font-semibold text-navy-950">Path completions</h3>
               <div className="mt-3 space-y-2">
                 {recentPaths.length ? (
                   recentPaths.map((path) => (
-                    <div key={path.id} className="flex items-center justify-between gap-3 rounded-[16px] bg-card px-3 py-2">
+                    <div key={path.id} className="flex items-center justify-between gap-3 rounded-[8px] border border-hairline bg-card px-3 py-2">
                       <div className="min-w-0">
                         <div className="truncate text-sm font-medium text-navy-950">{path.pathName}</div>
                         <div className="text-xs text-steel-500">
@@ -261,7 +261,7 @@ export default async function DailyPage() {
               <div className="mt-3 space-y-2">
                 {recentJournals.length ? (
                   recentJournals.map((entry) => (
-                    <div key={entry.id} className="rounded-[16px] bg-card px-3 py-2">
+                    <div key={entry.id} className="rounded-[8px] border border-hairline bg-card px-3 py-2">
                       <div className="text-xs text-steel-500">{toDateInput(entry.date)}</div>
                       <p className="mt-1 line-clamp-3 text-sm text-navy-950">{entry.content}</p>
                     </div>
@@ -292,7 +292,7 @@ function PathTile({
   completed: boolean;
 }) {
   return (
-    <div className={`flex items-center justify-between gap-3 rounded-[16px] px-4 py-3 ${completed ? "bg-navy-950 text-white" : "bg-card text-navy-950"}`}>
+    <div className={`flex items-center justify-between gap-3 rounded-[8px] border border-hairline px-4 py-3 ${completed ? "bg-navy-950 text-white" : "bg-card text-navy-950"}`}>
       <div className="min-w-0">
         <div className="truncate text-sm font-bold">{name}</div>
         <div className={`mt-0.5 text-xs font-semibold ${completed ? "text-white/65" : "text-steel-500"}`}>

@@ -17,7 +17,7 @@ The app is designed as a full-history system, not a same-day habit checklist. It
 - Analytics charts with history filters.
 - JSON export/import, monthly markdown report, and local-cache reset.
 - PWA manifest and service worker.
-- `DESIGN.md` with the Pinterest-style cream chrome, 16px radius, sparse primary CTA, and mobile-first UI rules.
+- `DESIGN.md` with the Mistral-inspired editorial typography, orange/cream palette, sober 8/12px geometry, sunset stripe, and mobile-first UI rules.
 
 ## Setup
 

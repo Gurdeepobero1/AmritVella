@@ -31,7 +31,7 @@ export function EmergencyMode({
   const lockText = `${Math.floor(lock / 60)}:${(lock % 60).toString().padStart(2, "0")}`;
 
   return (
-    <div className="rounded-[16px] border border-hairline bg-paper p-4 text-navy-950 sm:p-5">
+    <div className="rounded-[12px] border border-hairline bg-paper p-4 text-navy-950 sm:p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-bold tracking-[-0.02em]">Emergency mode</h2>
@@ -45,7 +45,7 @@ export function EmergencyMode({
             setLock(30 * 60);
             setRunning(true);
           }}
-          className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[16px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white"
+          className="focus-ring inline-flex min-h-11 items-center gap-2 rounded-[8px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white"
         >
           <TimerReset className="h-4 w-4" />
           Start emergency mode
@@ -53,11 +53,11 @@ export function EmergencyMode({
       </div>
 
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-[32px] bg-navy-950 p-4 text-white">
+        <div className="rounded-[16px] bg-navy-950 p-4 text-white">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-white/65">Breathing timer</div>
           <div className="mt-2 text-4xl font-bold tabular-nums tracking-[-0.05em]">{breathingText}</div>
         </div>
-        <div className="rounded-[32px] bg-card p-4">
+        <div className="rounded-[16px] bg-card p-4">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-steel-500">Contact delay lock</div>
           <div className="mt-2 text-4xl font-bold tabular-nums tracking-[-0.05em]">{lockText}</div>
           <div className="mt-1 text-sm text-steel-500">{lock === 0 ? "Delay complete. Decide calmly." : "Do not contact yet."}</div>
@@ -87,7 +87,7 @@ export function EmergencyMode({
 
         <div className="grid gap-2 sm:grid-cols-2">
           {emergencyChecklist.map((item) => (
-            <label key={item} className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+            <label key={item} className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
               <input className="mt-1 h-4 w-4 accent-saffron-500" type="checkbox" />
               <span>{item}</span>
             </label>
@@ -99,11 +99,11 @@ export function EmergencyMode({
           <textarea className={darkInputClass} name="notes" rows={5} placeholder="Write it here. Do not send while triggered." />
         </label>
         <div className="grid gap-2 sm:grid-cols-2">
-          <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+          <label className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
             <input className="mt-1 h-4 w-4 accent-saffron-500" name="wroteUnsentMessage" type="checkbox" />
             <span>Wrote unsent message</span>
           </label>
-          <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+          <label className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
             <input className="mt-1 h-4 w-4 accent-saffron-500" name="contactedPersonAfter" type="checkbox" disabled={lock > 0} />
             <span>Contacted person after delay</span>
           </label>
@@ -112,7 +112,7 @@ export function EmergencyMode({
           <span className="text-sm font-semibold text-navy-950">Final decision</span>
           <input className={darkInputClass} name="finalDecision" placeholder="Waited, prayed, did not contact, contacted respectfully..." />
         </label>
-        <button className="focus-ring rounded-[16px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white" type="submit">
+        <button className="focus-ring rounded-[8px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white" type="submit">
           Save emergency usage
         </button>
       </form>

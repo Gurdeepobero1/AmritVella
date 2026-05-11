@@ -163,7 +163,7 @@ export default async function CareerPage() {
             <Field label="Invoice / reference">
               <input className={inputClass} name="invoiceReference" />
             </Field>
-            <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+            <label className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
               <input className="mt-1 h-4 w-4 accent-saffron-500" name="paid" type="checkbox" />
               <span>Paid</span>
             </label>
@@ -231,7 +231,7 @@ function HistoryColumn({ title, children }: { title: string; children: React.Rea
 
 function HistoryItem({ title, meta, model, id }: { title: string; meta: string; model: string; id: string }) {
   return (
-    <div className="rounded-[16px] bg-card px-3 py-2">
+    <div className="rounded-[12px] bg-card px-3 py-2">
       <div className="line-clamp-2 text-sm font-medium text-navy-950">{title}</div>
       <div className="mt-1 text-xs text-steel-500">{meta}</div>
       <div className="mt-2">

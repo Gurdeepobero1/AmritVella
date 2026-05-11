@@ -117,7 +117,7 @@ export default async function FitnessPage() {
                 <input className={inputClass} name="valueAmount" type="number" min="0" step="0.01" />
               </Field>
             </div>
-            <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+            <label className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
               <input className="mt-1 h-4 w-4 accent-saffron-500" name="anonymous" type="checkbox" />
               <span>Anonymous</span>
             </label>
@@ -167,7 +167,7 @@ export default async function FitnessPage() {
 
 function Check({ name, label, checked }: { name: string; label: string; checked?: boolean }) {
   return (
-    <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
+    <label className="flex gap-2 rounded-[12px] bg-card px-3 py-2 text-sm text-navy-950">
       <input className="mt-1 h-4 w-4 accent-saffron-500" name={name} type="checkbox" defaultChecked={Boolean(checked)} />
       <span>{label}</span>
     </label>
@@ -185,7 +185,7 @@ function History({ title, children }: { title: string; children: React.ReactNode
 
 function HistoryItem({ title, meta, model, id }: { title: string; meta: string; model: string; id: string }) {
   return (
-    <div className="rounded-[16px] bg-card px-3 py-2">
+    <div className="rounded-[12px] bg-card px-3 py-2">
       <div className="line-clamp-2 text-sm font-medium text-navy-950">{title}</div>
       <div className="mt-1 text-xs text-steel-500">{meta}</div>
       <div className="mt-2">
