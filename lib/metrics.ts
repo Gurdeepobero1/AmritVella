@@ -60,9 +60,10 @@ export function todayDashboardMetrics(input: {
   routineMode: "BEGINNER" | "INTERMEDIATE" | "FULL";
 }) {
   const requiredPaths = routinePaths[input.routineMode];
-  const completedNames = new Set(input.paths.map((path) => path.pathName));
-  const nitnemCompleted = requiredPaths.filter((path) => completedNames.has(path)).length;
   const simranMinutes = input.simran.reduce((sum, item) => sum + item.durationMinutes, 0);
+  const completedNames = new Set(input.paths.map((path) => path.pathName));
+  if (simranMinutes > 0) completedNames.add("Waheguru Simran");
+  const nitnemCompleted = requiredPaths.filter((path) => completedNames.has(path)).length;
   const deepWorkHours = input.career.reduce((sum, item) => sum + Number(item.actualDuration ?? 0), 0);
   const score =
     input.dailyLog?.totalScore ??

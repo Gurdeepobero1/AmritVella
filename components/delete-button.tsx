@@ -6,7 +6,7 @@ export function DeleteButton({ model, id, path }: { model: string; id: string; p
     <form action={deleteUserRecord.bind(null, model, id, path)}>
       <button
         type="submit"
-        className="focus-ring inline-flex items-center gap-1 rounded-md border border-red-200 px-2 py-1 text-xs font-medium text-red-700 transition hover:bg-red-50"
+        className="focus-ring inline-flex items-center gap-1 rounded-full bg-white px-3 py-1.5 text-xs font-bold text-red-700 transition"
       >
         <Trash2 className="h-3 w-3" />
         Delete

@@ -18,7 +18,7 @@ export async function requireUser() {
     create: {
       userId: owner.id,
       key: "routineMode",
-      value: "BEGINNER"
+      value: "FULL"
     },
   });
 

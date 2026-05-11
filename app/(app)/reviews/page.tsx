@@ -111,8 +111,8 @@ export default async function ReviewsPage() {
             <div className="mt-3 space-y-2">
               {weeklyReviews.length ? (
                 weeklyReviews.map((review) => (
-                  <div key={review.id} className="rounded-md border border-navy-950/10 bg-white px-3 py-2">
-                    <div className="text-sm font-medium text-navy-950">
+                  <div key={review.id} className="rounded-[16px] bg-card px-3 py-2">
+                    <div className="text-sm font-bold text-navy-950">
                       {toDateInput(review.weekStart)} to {toDateInput(review.weekEnd)}
                     </div>
                     <div className="mt-1 text-xs text-steel-500">Average: {review.scoreAverage ? Number(review.scoreAverage) : 0}</div>
@@ -128,8 +128,8 @@ export default async function ReviewsPage() {
             <div className="mt-3 space-y-2">
               {monthlyReviews.length ? (
                 monthlyReviews.map((review) => (
-                  <div key={review.id} className="rounded-md border border-navy-950/10 bg-white px-3 py-2">
-                    <div className="text-sm font-medium text-navy-950">{toDateInput(review.month).slice(0, 7)}</div>
+                  <div key={review.id} className="rounded-[16px] bg-card px-3 py-2">
+                    <div className="text-sm font-bold text-navy-950">{toDateInput(review.month).slice(0, 7)}</div>
                     <div className="mt-1 text-xs text-steel-500">
                       Revenue {Number(review.totalRevenue).toFixed(2)} · Simran {review.totalSimranMinutes}m
                     </div>

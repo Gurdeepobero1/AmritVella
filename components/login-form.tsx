@@ -34,12 +34,12 @@ export function LoginForm({ registered = false }: { registered?: boolean }) {
       }}
     >
       {registered ? (
-        <div className="rounded-md border border-green-700/25 bg-green-50 px-3 py-2 text-sm text-green-800">
+        <div className="rounded-[16px] border border-green-700/25 bg-green-50 px-3 py-2 text-sm text-green-800">
           Account created. Sign in to continue.
         </div>
       ) : null}
       {error ? (
-        <div className="rounded-md border border-red-700/25 bg-red-50 px-3 py-2 text-sm text-red-800">{error}</div>
+        <div className="rounded-[16px] border border-red-700/25 bg-red-50 px-3 py-2 text-sm text-red-800">{error}</div>
       ) : null}
       <label className="block">
         <span className="text-sm font-medium text-navy-950">Email</span>
@@ -50,7 +50,7 @@ export function LoginForm({ registered = false }: { registered?: boolean }) {
         <input className={inputClass} name="password" type="password" autoComplete="current-password" required />
       </label>
       <button
-        className="focus-ring w-full rounded-md bg-saffron-500 px-4 py-2 text-sm font-semibold text-navy-950 transition hover:bg-saffron-600 disabled:opacity-60"
+        className="focus-ring w-full rounded-[16px] bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white transition disabled:opacity-60"
         type="submit"
         disabled={isPending}
       >

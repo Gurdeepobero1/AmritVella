@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -13,6 +12,8 @@ const content = [
   ["Kirtan Sohila", "Nitnem"],
   ["Ardaas", "Prayer"],
   ["Mool Mantar", "Foundation"],
+  ["Hukamnama reflection", "Reflection"],
+  ["Waheguru Simran", "Naam Simran"],
   ["Shabads for anxiety", "Healing"],
   ["Shabads for courage", "Healing"],
   ["Shabads for attachment", "Healing"],
@@ -21,25 +22,23 @@ const content = [
 ] as const;
 
 async function main() {
-  const passwordHash = await bcrypt.hash("amritvella123", 12);
-
   const user = await prisma.user.upsert({
-    where: { email: "demo@amritvella.local" },
+    where: { email: "owner@amritvella.local" },
     update: {},
     create: {
-      name: "Amrit Vella User",
-      email: "demo@amritvella.local",
-      passwordHash
+      name: "AmritVella",
+      email: "owner@amritvella.local",
+      passwordHash: "auth-disabled"
     }
   });
 
   await prisma.appSetting.upsert({
     where: { userId_key: { userId: user.id, key: "routineMode" } },
-    update: { value: "BEGINNER" },
+    update: { value: "FULL" },
     create: {
       userId: user.id,
       key: "routineMode",
-      value: "BEGINNER"
+      value: "FULL"
     }
   });
 
@@ -73,7 +72,7 @@ async function main() {
   });
 
   console.log("Seed complete");
-  console.log("Demo login: demo@amritvella.local / amritvella123");
+  console.log("Direct-access owner ready: owner@amritvella.local");
 }
 
 main()

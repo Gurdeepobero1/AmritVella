@@ -10,26 +10,30 @@ const config: Config = {
     extend: {
       colors: {
         navy: {
-          950: "#07111f",
-          900: "#0a1728",
-          800: "#10243d",
-          700: "#173456"
+          950: "#262622",
+          900: "#33332e",
+          800: "#62625b",
+          700: "#91918c"
         },
         saffron: {
-          500: "#f2a51a",
-          600: "#d98d06"
+          500: "#e60023",
+          600: "#cc001f"
         },
         steel: {
-          50: "#f7f8fa",
-          100: "#e8edf2",
-          300: "#aab7c5",
-          500: "#687789",
-          700: "#334155"
+          50: "#fbfbf9",
+          100: "#f6f6f3",
+          300: "#dadad3",
+          500: "#62625b",
+          700: "#33332e"
         },
-        paper: "#fbfaf4"
+        paper: "#ffffff",
+        canvas: "#ffffff",
+        cream: "#fbfbf9",
+        card: "#f6f6f3",
+        hairline: "#dadad3"
       },
       boxShadow: {
-        soft: "0 18px 55px rgba(7, 17, 31, 0.12)"
+        soft: "0 16px 42px rgba(38, 38, 34, 0.08)"
       }
     }
   },

@@ -49,11 +49,11 @@ export default async function EmotionalPage() {
               <textarea className={inputClass} name="response" rows={3} placeholder="What happened, and how did you respond?" />
             </Field>
             <div className="grid gap-2 sm:grid-cols-2">
-              <label className="flex gap-2 rounded-md border border-navy-950/10 bg-white px-3 py-2 text-sm text-navy-950">
+              <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
                 <input className="mt-1 h-4 w-4 accent-saffron-500" name="didReact" type="checkbox" />
                 <span>I reacted instead of responding</span>
               </label>
-              <label className="flex gap-2 rounded-md border border-navy-950/10 bg-white px-3 py-2 text-sm text-navy-950">
+              <label className="flex gap-2 rounded-[16px] bg-card px-3 py-2 text-sm text-navy-950">
                 <input className="mt-1 h-4 w-4 accent-saffron-500" name="usedEmergencyMode" type="checkbox" />
                 <span>I used emergency mode</span>
               </label>
@@ -80,7 +80,7 @@ export default async function EmotionalPage() {
           <div className="space-y-2 p-4 sm:p-5">
             {triggers.length ? (
               triggers.map((trigger) => (
-                <div key={trigger.id} className="flex items-center justify-between gap-3 rounded-md border border-navy-950/10 bg-white px-3 py-2">
+                <div key={trigger.id} className="flex items-center justify-between gap-3 rounded-[16px] bg-card px-3 py-2">
                   <div className="min-w-0">
                     <div className="text-sm font-medium text-navy-950">
                       {trigger.triggerType.replaceAll("_", " ")} · intensity {trigger.intensity}
@@ -101,7 +101,7 @@ export default async function EmotionalPage() {
           <div className="space-y-2 p-4 sm:p-5">
             {usages.length ? (
               usages.map((usage) => (
-                <div key={usage.id} className="rounded-md border border-navy-950/10 bg-white px-3 py-2">
+                <div key={usage.id} className="rounded-[16px] bg-card px-3 py-2">
                   <div className="text-sm font-medium text-navy-950">{usage.finalDecision ?? "Emergency mode used"}</div>
                   <div className="text-xs text-steel-500">{toDisplayDate(usage.startedAt)}</div>
                 </div>

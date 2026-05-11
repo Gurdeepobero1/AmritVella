@@ -1,13 +1,13 @@
 # AmritVella
 
-Production-grade Sikh discipline, healing, career, and self-mastery tracker built with Next.js, TypeScript, Tailwind CSS, PostgreSQL, Prisma, and credentials auth.
+Production-grade Sikh discipline, healing, career, and self-mastery tracker built with Next.js, TypeScript, Tailwind CSS, PostgreSQL, and Prisma.
 
-The app is designed as a full-history system, not a same-day habit checklist. Every log is stored with `userId`, so the initial single-user app can grow into multi-user use without changing the core data model.
+The app is designed as a full-history system, not a same-day habit checklist. It currently opens directly into the app with one automatic owner account, while every log is still stored with `userId` so the schema can support multi-user auth later.
 
 ## Core Modules
 
 - Dashboard with score, Nitnem progress, Simran minutes, career hours, emotional status, fitness, seva, streaks, averages, weakest area, and corrective action.
-- Daily Sikh routine tracker with Beginner, Intermediate, and Full modes.
+- Daily Sikh routine tracker with Beginner, Intermediate, and Full modes plus a visible all-path Nitnem board.
 - Gurbani / Path Library with nullable verified content fields. No Gurbani text is invented.
 - Simran counter with timer, mala/custom count, silent mode, vibration, and reflection.
 - Emotional trigger tracker and emergency mode.
@@ -17,6 +17,7 @@ The app is designed as a full-history system, not a same-day habit checklist. Ev
 - Analytics charts with history filters.
 - JSON export/import, monthly markdown report, and local-cache reset.
 - PWA manifest and service worker.
+- `DESIGN.md` with the Pinterest-style cream chrome, 16px radius, sparse primary CTA, and mobile-first UI rules.
 
 ## Setup
 
@@ -36,8 +37,6 @@ cp .env.example .env
 
 ```env
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:5432/amritvella?schema=public"
-NEXTAUTH_URL="http://localhost:3000"
-NEXTAUTH_SECRET="generate-a-long-random-secret"
 ```
 
 4. Generate Prisma client and run migrations:
@@ -47,17 +46,10 @@ npm run prisma:generate
 npm run prisma:migrate
 ```
 
-5. Seed placeholder library content and demo account:
+5. Seed placeholder library content and the direct-access owner:
 
 ```bash
 npm run prisma:seed
-```
-
-Demo login:
-
-```text
-demo@amritvella.local
-amritvella123
 ```
 
 6. Start the app:
