@@ -46,6 +46,9 @@ export default async function DailyPage() {
   const completedNames = new Set(todayPaths.map((path) => path.pathName));
   if (simran.length) completedNames.add("Waheguru Simran");
   const activeCompleted = activePaths.filter((path) => completedNames.has(path)).length;
+  const nextPath =
+    nitnemPathCatalog.find((path) => activePaths.includes(path.name) && !completedNames.has(path.name)) ??
+    nitnemPathCatalog.find((path) => !completedNames.has(path.name));
   const careerHours = career.reduce((sum, task) => sum + Number(task.actualDuration ?? 0), 0);
   const suggestedScores = {
     sikh: Math.min(30, Math.round((activeCompleted / activePaths.length) * 30)),
@@ -59,54 +62,51 @@ export default async function DailyPage() {
   return (
     <div>
       <PageHeader
-        title="Daily Sikh Routine"
-        description="Store every path completion, emotional checklist entry, score, and journal note permanently."
+        title="Routine"
+        description="One calm place to record today."
       />
 
-      <Card className="mb-5 overflow-hidden">
-        <CardHeader
-          title="Today's complete Nitnem board"
-          description="All paths are visible here. The app stores completions only; verified Gurbani text can be added later in the library."
-        />
-        <div className="grid gap-3 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {nitnemPathCatalog.map((path) => (
-            <PathTile
-              key={path.name}
-              name={path.name}
-              period={path.period}
-              group={path.group}
-              duration={path.defaultDuration}
-              focus={path.focus}
-              active={activePaths.includes(path.name)}
-              completed={completedNames.has(path.name)}
-            />
-          ))}
+      <Card className="mb-5 p-5 sm:p-6">
+        <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <div className="text-sm font-bold text-steel-500">Today&apos;s Nitnem</div>
+            <div className="mt-3 text-5xl font-bold tracking-[-0.06em] text-navy-950">
+              {activeCompleted}/{activePaths.length}
+            </div>
+            <p className="mt-2 text-sm leading-6 text-steel-500">
+              {routineModeLabels[routineMode]} mode. Gurbani text stays blank until verified in the library.
+            </p>
+            {nextPath ? (
+              <form action={createPathCompletion} className="mt-5">
+                <input type="hidden" name="date" value={todayInputDate()} readOnly />
+                <input type="hidden" name="pathName" value={nextPath.name} readOnly />
+                <input type="hidden" name="durationMinutes" value={nextPath.defaultDuration} readOnly />
+                <button className="focus-ring inline-flex min-h-11 rounded-full bg-saffron-500 px-5 py-3 text-sm font-bold leading-none text-white">
+                  Mark {nextPath.name} done
+                </button>
+              </form>
+            ) : null}
+          </div>
+
+          <div className="space-y-2">
+            {nitnemPathCatalog.map((path) => (
+              <PathTile
+                key={path.name}
+                name={path.name}
+                period={path.period}
+                duration={path.defaultDuration}
+                active={activePaths.includes(path.name)}
+                completed={completedNames.has(path.name)}
+              />
+            ))}
+          </div>
         </div>
       </Card>
 
-      <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-5 xl:grid-cols-[0.85fr_1.15fr]">
         <div className="space-y-5">
           <Card className="overflow-hidden">
-            <CardHeader title="Routine mode" description="Mode changes are stored per user in AppSetting." />
-            <form action={saveRoutineMode} className="space-y-4 p-4 sm:p-5">
-              <Field label="Active mode">
-                <select className={inputClass} name="mode" defaultValue={routineMode}>
-                  {Object.entries(routineModeLabels).map(([value, label]) => (
-                    <option key={value} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </select>
-              </Field>
-              <div className="rounded-[16px] bg-card px-4 py-3 text-sm font-semibold text-navy-950">
-                {routinePaths[routineMode].join(" · ")}
-              </div>
-              <SubmitButton>Save mode</SubmitButton>
-            </form>
-          </Card>
-
-          <Card className="overflow-hidden">
-            <CardHeader title="Path completion" description="No Gurbani text is stored here, only completion history and notes." />
+            <CardHeader title="Log one path" description="Use this when you need a specific entry or notes." />
             <form action={createPathCompletion} className="grid gap-4 p-4 sm:p-5">
               <Field label="Date">
                 <input className={inputClass} name="date" type="date" defaultValue={todayInputDate()} />
@@ -129,14 +129,30 @@ export default async function DailyPage() {
               <SubmitButton>Log path</SubmitButton>
             </form>
           </Card>
+
+          <details className="rounded-[16px] border border-hairline bg-paper">
+            <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Routine settings</summary>
+            <form action={saveRoutineMode} className="space-y-4 border-t border-hairline p-4 sm:p-5">
+              <Field label="Active mode">
+                <select className={inputClass} name="mode" defaultValue={routineMode}>
+                  {Object.entries(routineModeLabels).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </Field>
+              <SubmitButton>Save mode</SubmitButton>
+            </form>
+          </details>
         </div>
 
-        <Card className="overflow-hidden">
-          <CardHeader
-            title="Daily score and emotional checklist"
-            description="Score weights: Sikh discipline 30, career 30, emotional control 20, fitness 10, seva/character 10."
-          />
-          <form action={saveDailyLog} className="space-y-5 p-4 sm:p-5">
+        <details className="rounded-[16px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">
+            Score and emotional checklist
+            <span className="ml-2 font-semibold text-steel-500">Suggested {dailyLog?.totalScore ?? suggestedTotal}/100</span>
+          </summary>
+          <form action={saveDailyLog} className="space-y-5 border-t border-hairline p-4 sm:p-5">
             <Field label="Date">
               <input className={inputClass} name="date" type="date" defaultValue={todayInputDate()} />
             </Field>
@@ -183,13 +199,13 @@ export default async function DailyPage() {
             </div>
             <SubmitButton>Save daily log</SubmitButton>
           </form>
-        </Card>
+        </details>
       </div>
 
       <div className="mt-5 grid gap-5 xl:grid-cols-2">
-        <Card className="overflow-hidden">
-          <CardHeader title="Journal entry" description="Use one of the discipline prompts or write your own." />
-          <form action={createJournalEntry} className="space-y-4 p-4 sm:p-5">
+        <details className="rounded-[16px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Journal</summary>
+          <form action={createJournalEntry} className="space-y-4 border-t border-hairline p-4 sm:p-5">
             <Field label="Date">
               <input className={inputClass} name="date" type="date" defaultValue={todayInputDate()} />
             </Field>
@@ -215,11 +231,11 @@ export default async function DailyPage() {
             </div>
             <SubmitButton>Save journal</SubmitButton>
           </form>
-        </Card>
+        </details>
 
-        <Card className="overflow-hidden">
-          <CardHeader title="Recent history" description="Latest stored path and journal records." />
-          <div className="space-y-5 p-4 sm:p-5">
+        <details className="rounded-[16px] border border-hairline bg-paper">
+          <summary className="cursor-pointer p-4 text-sm font-bold text-navy-950 sm:p-5">Recent history</summary>
+          <div className="space-y-5 border-t border-hairline p-4 sm:p-5">
             <div>
               <h3 className="text-sm font-semibold text-navy-950">Path completions</h3>
               <div className="mt-3 space-y-2">
@@ -256,7 +272,7 @@ export default async function DailyPage() {
               </div>
             </div>
           </div>
-        </Card>
+        </details>
       </div>
     </div>
   );
@@ -265,43 +281,27 @@ export default async function DailyPage() {
 function PathTile({
   name,
   period,
-  group,
   duration,
-  focus,
   active,
   completed
 }: {
   name: string;
   period: string;
-  group: string;
   duration: number;
-  focus: string;
   active: boolean;
   completed: boolean;
 }) {
   return (
-    <article className={`flex min-h-56 flex-col justify-between rounded-[16px] p-4 ${completed ? "bg-navy-950 text-white" : "bg-card text-navy-950"}`}>
-      <div>
-        <div className="flex items-start justify-between gap-3">
-          <span className={`rounded-full px-3 py-1 text-[11px] font-bold ${completed ? "bg-white text-navy-950" : active ? "bg-navy-950 text-white" : "bg-white text-steel-500"}`}>
-            {completed ? "Logged today" : active ? "Active mode" : "Full path"}
-          </span>
-          <span className={`text-xs font-bold ${completed ? "text-white/70" : "text-steel-500"}`}>{duration}m</span>
+    <div className={`flex items-center justify-between gap-3 rounded-[16px] px-4 py-3 ${completed ? "bg-navy-950 text-white" : "bg-card text-navy-950"}`}>
+      <div className="min-w-0">
+        <div className="truncate text-sm font-bold">{name}</div>
+        <div className={`mt-0.5 text-xs font-semibold ${completed ? "text-white/65" : "text-steel-500"}`}>
+          {active ? "Active" : "Full"} · {period} · {duration}m
         </div>
-        <h2 className="mt-5 text-xl font-bold tracking-[-0.03em]">{name}</h2>
-        <p className={`mt-1 text-sm font-semibold ${completed ? "text-white/70" : "text-steel-500"}`}>{group} - {period}</p>
-        <p className={`mt-3 text-sm leading-5 ${completed ? "text-white/75" : "text-steel-500"}`}>{focus}</p>
       </div>
-      <form action={createPathCompletion} className="mt-4">
-        <input type="hidden" name="date" value={todayInputDate()} readOnly />
-        <input type="hidden" name="pathName" value={name} readOnly />
-        <input type="hidden" name="durationMinutes" value={duration} readOnly />
-        <button
-          className={`focus-ring w-full rounded-[16px] px-4 py-3 text-sm font-bold ${completed ? "bg-white text-navy-950" : "bg-saffron-500 text-white"}`}
-        >
-          {completed ? "Log another round" : "Mark complete"}
-        </button>
-      </form>
-    </article>
+      <span className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${completed ? "bg-white text-navy-950" : "bg-white text-steel-500"}`}>
+        {completed ? "Done" : "Open"}
+      </span>
+    </div>
   );
 }
