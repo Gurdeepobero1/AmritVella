@@ -11,7 +11,7 @@ export default async function ReviewsPage() {
   const monthStart = startOfMonth();
 
   const [weekLogs, tasks, simran, paths, seva, outreach, revenue, dailyLogs, weeklyReviews, monthlyReviews] =
-    await Promise.all([
+    await prisma.$transaction([
       prisma.dailyLog.findMany({ where: { userId: user.id, date: { gte: weekStart, lte: weekEnd } } }),
       prisma.careerTask.findMany({ where: { userId: user.id, date: { gte: monthStart } } }),
       prisma.simranSession.findMany({ where: { userId: user.id, date: { gte: monthStart } } }),

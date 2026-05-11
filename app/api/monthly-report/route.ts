@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   end.setUTCMonth(end.getUTCMonth() + 1);
 
   const userId = user.id;
-  const [daily, simran, paths, tasks, skills, outreach, revenue, triggers, seva, fitness] = await Promise.all([
+  const [daily, simran, paths, tasks, skills, outreach, revenue, triggers, seva, fitness] = await prisma.$transaction([
     prisma.dailyLog.findMany({ where: { userId, date: { gte: start, lt: end } }, orderBy: { date: "asc" } }),
     prisma.simranSession.findMany({ where: { userId, date: { gte: start, lt: end } } }),
     prisma.pathCompletion.findMany({ where: { userId, date: { gte: start, lt: end } } }),

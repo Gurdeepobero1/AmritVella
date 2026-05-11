@@ -5,7 +5,7 @@ import { Card, CardHeader, EmptyState, Field, inputClass, PageHeader, SubmitButt
 
 export default async function LibraryPage() {
   await requireUser();
-  const [content, playlists] = await Promise.all([
+  const [content, playlists] = await prisma.$transaction([
     prisma.gurbaniContent.findMany({ orderBy: [{ category: "asc" }, { title: "asc" }] }),
     prisma.playlistLink.findMany({ orderBy: { createdAt: "desc" }, take: 20 })
   ]);

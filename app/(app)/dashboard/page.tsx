@@ -26,7 +26,7 @@ export default async function DashboardPage() {
     weekLogs,
     monthLogs,
     allLogs
-  ] = await Promise.all([
+  ] = await prisma.$transaction([
     prisma.appSetting.findUnique({ where: { userId_key: { userId: user.id, key: "routineMode" } } }),
     prisma.dailyLog.findUnique({ where: { userId_date: { userId: user.id, date: today } } }),
     prisma.pathCompletion.findMany({ where: { userId: user.id, date: today }, orderBy: { completedAt: "desc" } }),

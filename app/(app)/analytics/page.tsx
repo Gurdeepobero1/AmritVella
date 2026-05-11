@@ -7,7 +7,7 @@ import { AnalyticsClient } from "@/components/analytics-client";
 
 export default async function AnalyticsPage() {
   const user = await requireUser();
-  const [dailyLogs, simran, tasks, skills, outreach, revenue, triggers, seva, fitness, thieves] = await Promise.all([
+  const [dailyLogs, simran, tasks, skills, outreach, revenue, triggers, seva, fitness, thieves] = await prisma.$transaction([
     prisma.dailyLog.findMany({ where: { userId: user.id }, orderBy: { date: "asc" } }),
     prisma.simranSession.findMany({ where: { userId: user.id }, orderBy: { date: "asc" } }),
     prisma.careerTask.findMany({ where: { userId: user.id }, orderBy: { date: "asc" } }),

@@ -9,7 +9,7 @@ import { DeleteButton } from "@/components/delete-button";
 export default async function FitnessPage() {
   const user = await requireUser();
   const today = parseDateInput(todayInputDate());
-  const [fitnessToday, fitnessLogs, thieves, seva] = await Promise.all([
+  const [fitnessToday, fitnessLogs, thieves, seva] = await prisma.$transaction([
     prisma.fitnessLog.findUnique({ where: { userId_date: { userId: user.id, date: today } } }),
     prisma.fitnessLog.findMany({ where: { userId: user.id }, orderBy: { date: "desc" }, take: 8 }),
     prisma.fiveThievesRating.findMany({ where: { userId: user.id }, orderBy: { date: "desc" }, take: 12 }),

@@ -8,7 +8,7 @@ import { DeleteButton } from "@/components/delete-button";
 
 export default async function CareerPage() {
   const user = await requireUser();
-  const [tasks, skills, outreach, revenue] = await Promise.all([
+  const [tasks, skills, outreach, revenue] = await prisma.$transaction([
     prisma.careerTask.findMany({ where: { userId: user.id }, orderBy: { date: "desc" }, take: 10 }),
     prisma.skillPracticeLog.findMany({ where: { userId: user.id }, orderBy: { date: "desc" }, take: 8 }),
     prisma.outreachLog.findMany({ where: { userId: user.id }, orderBy: { date: "desc" }, take: 8 }),

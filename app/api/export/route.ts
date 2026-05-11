@@ -26,7 +26,7 @@ export async function GET() {
     skillPracticeLogs,
     gurbaniContent,
     playlistLinks
-  ] = await Promise.all([
+  ] = await prisma.$transaction([
     prisma.appSetting.findMany({ where: { userId } }),
     prisma.dailyLog.findMany({ where: { userId } }),
     prisma.pathCompletion.findMany({ where: { userId } }),

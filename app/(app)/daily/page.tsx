@@ -17,7 +17,7 @@ export default async function DailyPage() {
   const user = await requireUser();
   const today = parseDateInput(todayInputDate());
 
-  const [setting, dailyLog, todayPaths, recentPaths, recentJournals, simran, career, fitness, seva, triggers] = await Promise.all([
+  const [setting, dailyLog, todayPaths, recentPaths, recentJournals, simran, career, fitness, seva, triggers] = await prisma.$transaction([
     prisma.appSetting.findUnique({ where: { userId_key: { userId: user.id, key: "routineMode" } } }),
     prisma.dailyLog.findUnique({ where: { userId_date: { userId: user.id, date: today } } }),
     prisma.pathCompletion.findMany({

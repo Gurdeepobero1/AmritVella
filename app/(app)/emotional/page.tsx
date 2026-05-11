@@ -9,7 +9,7 @@ import { DeleteButton } from "@/components/delete-button";
 
 export default async function EmotionalPage() {
   const user = await requireUser();
-  const [triggers, usages] = await Promise.all([
+  const [triggers, usages] = await prisma.$transaction([
     prisma.emotionalTrigger.findMany({
       where: { userId: user.id },
       orderBy: { createdAt: "desc" },
