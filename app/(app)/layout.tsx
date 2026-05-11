@@ -1,13 +1,11 @@
 import { AppShell } from "@/components/app-shell";
-import { requireUser } from "@/lib/session";
 
 export const dynamic = "force-dynamic";
 
-export default async function ProtectedLayout({
+export default function ProtectedLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  const user = await requireUser();
-  return <AppShell userName={user.name}>{children}</AppShell>;
+  return <AppShell userName="Direct access">{children}</AppShell>;
 }
